@@ -1,1 +1,1 @@
-# on-teh-slopes
+# on-the-slopes
