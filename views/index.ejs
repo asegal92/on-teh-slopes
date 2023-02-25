@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <title>Trails App</title>
+</head>
+<body>
+  <div class="container">
+  <h1>Trails Page</h1>
+  <nav>
+    <a href="/trails/new">Create a New Trail</a>
+  </nav>
+  <%- include('./partials/nav.ejs') %>
+  <ul>
+    <% for(let i = 0; i < trails.length; i++){ %>
+      <table>
+        <tr>
+        The <a href="/trails/<%=trails[i]._id%>"><%=trails[i].name%></a>,
+        <% if(trails[i].open === true){ %>
+          Trail is open
+        <% } else { %>
+          Trail is not open
+        <% } %>
+        
+        <form action="/trails/<%=trails[i]._id%>?_method=DELETE" method="POST">
+          <input type="submit" value="DELETE" />
+        </form>
+        <a href="/trails/<%=trails[i]._id%>/edit">Edit</a>
+      </tr>
+    </table>
+    <% } %>
+  </ul>  
+</div>
+</body>
+</html>

@@ -1,60 +1,48 @@
-//___________________
-//Dependencies
-//___________________
-const express = require('express');
-const methodOverride  = require('method-override');
-const mongoose = require ('mongoose');
-const app = express ();
-const db = mongoose.connection;
+const express = require('express')
+const app = express()
+const mongoose = require('mongoose')
+const session = require('express-session')
+const bcrypt = require('bcrypt')
+const methodOverride = require('method-override')
+const trailsController = require('./controllers/trails.js')
+const usersController = require('./controllers/users.js')
+const sessionsController = require('./controllers/sessions_controller.js')
+
 require('dotenv').config()
-//___________________
-//Port
-//___________________
-// Allow use of Heroku's port or your own local port, depending on the environment
-const PORT = process.env.PORT || 3003;
 
-//___________________
-//Database
-//___________________
-// How to connect to the database either via heroku or locally
-const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 3000;
+const mongodbURI = process.env.MONGODBURI
 
-// Connect to Mongo &
-// Fix Depreciation Warnings from Mongoose
-// May or may not need these depending on your Mongoose version
-mongoose.connect(MONGODB_URI , { useNewUrlParser: true, useUnifiedTopology: true }
-);
+app.use(methodOverride('_method'))
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
 
-// Error / success
-db.on('error', (err) => console.log(err.message + ' is Mongod not running?'));
-db.on('connected', () => console.log('mongo connected: ', MONGODB_URI));
-db.on('disconnected', () => console.log('mongo disconnected'));
+app.use('/trails', trailsController)
+app.use('/users', usersController)
+app.use('/sessions', sessionsController)
 
-//___________________
-//Middleware
-//___________________
+// const hashedString = bcrypt.hashSync('yourStringHere', bcrypt.genSaltSync(10))
+// console.log(hashedString)
+// console.log(bcrypt.compareSync('yourStringHere', hashedString))
 
-//use public folder for static assets
-app.use(express.static('public'));
+app.get('/', (req, res) => {
+  res.send('This app is working')
+})
 
-// populates req.body with parsed info from forms - if no data from forms will return an empty object {}
-app.use(express.urlencoded({ extended: false }));// extended: false - does not allow nested objects in query strings
-app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
+app.get('/trail/new', (req, res) => {
+  res.send('working!')
+})
 
-//use method override
-app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
+mongoose.connect(mongodbURI);
+mongoose.connection.once('open', () => {
+  console.log('connected to mongo')
+})
 
-
-//___________________
-// Routes
-//___________________
-//localhost:3000
-app.get('/' , (req, res) => {
-  res.send('Hello World!');
-});
-
-//___________________
-//Listener
-//___________________
-app.listen(PORT, () => console.log( 'Listening on port:', PORT));
-
+app.listen(PORT, () => {
+  console.log('listening')
+})
