@@ -11,11 +11,12 @@ const sessionsController = require('./controllers/sessions_controller.js')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3000;
-const mongodbURI = process.env.MONGODBURI
+const MONGODB_URI = process.env.MONGODB_URI;
 
+app.use(express.static('public'));
 app.use(methodOverride('_method'))
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: false}))
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
@@ -38,7 +39,8 @@ app.get('/trail/new', (req, res) => {
   res.send('working!')
 })
 
-mongoose.connect(mongodbURI);
+mongoose.connect(MONGODB_URI , { useNewUrlParser: true, useUnifiedTopology: true }
+  );
 mongoose.connection.once('open', () => {
   console.log('connected to mongo')
 })
