@@ -1,11 +1,11 @@
 <ul>
     <% if (currentUser) { %>
-      <li>Welcome <%=currentUser.username%></li>
-      <li>
+      <span>Welcome <%=currentUser.username%> !</span>
+      <span>
         <form action="/sessions?_method=DELETE" method="POST">
           <input type="submit" value="Log Out" />
         </form>
-      </li>
+      </span>
     <% } else { %>
       <li><a href="/users/new">Sign Up</a></li>
       <li><a href="/sessions/new">Log In</a></li>
