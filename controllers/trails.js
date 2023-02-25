@@ -40,6 +40,7 @@ trails.get('/seed', (req, res) => {
 
 trails.get('/:id', (req, res) => {
   // res.render('show.ejs')
+  console.log(req.params.id)
   Trail.findById(req.params.id, (err, foundTrail) => {
     if(err){
       console.log(err, ': ERROR AT TRAILS SHOW ROUTE')

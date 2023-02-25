@@ -4,14 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <!-- <link rel="stylesheet" href="styles.css"> -->
+  <title>Login Page</title>
 </head>
 <body>
-  <h1>Login:</h1>
+  <h1>Welcome to Your Favorite Trails App</h1>
+  <h3>Login:</h3>
   <form action="/sessions/" method="POST" >
     Username: <input type="text" name="username" />
     Password: <input type="password" name="password" />
     <input type="submit" value="Login" />
-  </form>
+  </form> 
+  <a href="/users/new">
+    <button>Sign up</button>
+  </a>
+  <!-- <style>
+    * {
+      background-image: url("https://s3.onthesnow.com/images/trailmaps/utah/snowbasin/20191207191729/xlarge.jpg");
+    }
+  </style> -->
 </body>
 </html>
